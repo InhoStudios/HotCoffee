@@ -16,6 +16,7 @@ public class App extends ListenerAdapter {
     public static void main(String[] args) throws LoginException{
         JDA jda = new JDABuilder(Token.token).build();
         jda.addEventListener(new App());
+        Swears.init();
     }
 
     public void onMessageReceived(MessageReceivedEvent evt){
@@ -25,8 +26,10 @@ public class App extends ListenerAdapter {
         String content = msg.getContentRaw();
 
         // check swears
-        if(content.toLowerCase().contains("fuck") || content.toLowerCase().contains("shit") || content.toLowerCase().contains("ass")){
-            msgCh.sendMessage("Language, please! :)").queue();
+        for(int i = 0; i < Swears.getSwears().size(); i++){
+            if(content.toLowerCase().contains(Swears.getSwears().get(i))){
+                msgCh.sendMessage("Language, please! :)").queue();
+            }
         }
 
         if(content.length() > Globals.pref.length() && content.substring(0,Globals.pref.length()).equalsIgnoreCase(Globals.pref)){
