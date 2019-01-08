@@ -22,9 +22,21 @@ public class App extends ListenerAdapter {
         MessageChannel msgCh = evt.getChannel();
         Message msg = evt.getMessage();
         User author = evt.getAuthor();
+        String content = msg.getContentRaw();
 
-        if(msg.getContentRaw().substring(0,3).equalsIgnoreCase(Globals.pref)){
+        // check swears
+        if(content.toLowerCase().contains("fuck") || content.toLowerCase().contains("shit") || content.toLowerCase().contains("ass")){
+            msgCh.sendMessage("Language, please! :)").queue();
+        }
+
+        if(content.length() > Globals.pref.length() && content.substring(0,Globals.pref.length()).equalsIgnoreCase(Globals.pref)){
             System.out.println("Command Entered");
+            String command = content.substring(Globals.pref.length());
+
+            if(command.equalsIgnoreCase("ping")){
+                msgCh.sendMessage("Pong!").queue();
+            }
+
         }
 
         if(evt.isFromType(ChannelType.PRIVATE)){
