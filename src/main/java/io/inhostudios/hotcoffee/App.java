@@ -17,6 +17,7 @@ public class App extends ListenerAdapter {
         JDA jda = new JDABuilder(Token.token).build();
         jda.addEventListener(new App());
         Swears.init();
+        Globals.initPf();
     }
 
     public void onMessageReceived(MessageReceivedEvent evt){
@@ -28,7 +29,7 @@ public class App extends ListenerAdapter {
         // check swears
         for(int i = 0; i < Swears.getSwears().size(); i++){
             if(content.toLowerCase().contains(Swears.getSwears().get(i))){
-                msgCh.sendMessage("Language, please! :)").queue();
+                msgCh.sendMessage(Globals.chooseResp()).queue();
             }
         }
 
