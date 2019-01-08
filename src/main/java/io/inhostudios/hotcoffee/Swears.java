@@ -19,6 +19,8 @@ public class Swears {
         swears.add("fck");
         swears.add(" ass");
         swears.add("bitch");
+        swears.add("tf ");
+        swears.add("jfc");
     }
 
     public static ArrayList<String> getSwears(){
