@@ -14,7 +14,7 @@ import javax.security.auth.login.LoginException;
 public class App extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException{
-        JDA jda = new JDABuilder(Globals.token).build();
+        JDA jda = new JDABuilder(Token.token).build();
         jda.addEventListener(new App());
     }
 
@@ -22,6 +22,10 @@ public class App extends ListenerAdapter {
         MessageChannel msgCh = evt.getChannel();
         Message msg = evt.getMessage();
         User author = evt.getAuthor();
+
+        if(msg.getContentRaw().substring(0,3).equalsIgnoreCase(Globals.pref)){
+            System.out.println("Command Entered");
+        }
 
         if(evt.isFromType(ChannelType.PRIVATE)){
             System.out.printf("[PM] %s: %s\n", evt.getAuthor().getName(), evt.getMessage().getContentDisplay());
