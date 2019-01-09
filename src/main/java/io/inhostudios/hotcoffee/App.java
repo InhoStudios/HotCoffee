@@ -51,7 +51,7 @@ public class App extends ListenerAdapter {
 
             if(command.equalsIgnoreCase(Globals.swear)){
                 for(int i = 0; i < Swears.getUserIDs().size(); i++){
-                    msgCh.sendMessage(Swears.getNames().get(i) + ": " + Swears.getValues().get(i)).queue();
+                    msgCh.sendMessage(Swears.getNames().get(i) + ": $" + Swears.getValues().get(i)).queue();
                 }
             }
 

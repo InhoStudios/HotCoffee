@@ -22,21 +22,29 @@ public class Swears {
     }
 
     public static void init(){
-        swears.add("fuck");
+        swears.add("fuc");
         swears.add("fuuuck");
         swears.add("shit");
         swears.add("fck");
-        swears.add(" ass");
+        swears.add("ass");
         swears.add("bitch");
-        swears.add("tf ");
+        swears.add("tf");
         swears.add("jfc");
         swears.add("bitchass");
         swears.add("bich");
         swears.add("dick");
+        swears.add("fuk");
+        swears.add("kuk");
+        swears.add("cuck");
+        swears.add("nig");
+        swears.add("nibba");
 
         safeWords.add("pass");
         safeWords.add("bass");
         safeWords.add("kafka");
+        safeWords.add("assume");
+        safeWords.add("vinegar");
+        safeWords.add("yass");
     }
 
     public static ArrayList<String> getNames() {
@@ -59,19 +67,22 @@ public class Swears {
 
         for(int i = 0; i < swears.size(); i++){
             for(int j = 0; j < safeWords.size(); j++){
-                if(content.contains(swears.get(i)) && content.contains(safeWords.get(i))){
+                if((content.length() > swears.get(i).length() && content.length() > safeWords.get(i).length()) && content.contains(swears.get(i)) && content.contains(safeWords.get(i))){
                     if(content.replace(safeWords.get(i),"").contains(swears.get(i))){
-                       return true;
+                        System.out.println(content.replace("Safe word: " + safeWords.get(i),""));
+                        return true;
                     }
                 }
             }
         }
 
         content = content
-                .replace(" ", "")
+                .replace("//s", "")
                 .replace(".","")
                 .replace("!","")
-                .replace("-","");
+                .replace("-","")
+                .replace(":", "")
+                .replace("regional_indicator_","");
         System.out.println(content);
         for(int i = 0; i < swears.size(); i++){
             if(content.toLowerCase().contains(swears.get(i))){
