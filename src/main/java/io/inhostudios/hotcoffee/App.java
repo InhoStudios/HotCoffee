@@ -10,14 +10,20 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
 
 public class App extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException{
         JDA jda = new JDABuilder(Token.token).build();
         jda.addEventListener(new App());
-        Swears.init();
         Globals.initPf();
+        Swears.init();
+        try {
+            Swears.readFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onMessageReceived(MessageReceivedEvent evt){
@@ -27,15 +33,27 @@ public class App extends ListenerAdapter {
         String content = msg.getContentRaw();
 
         // check swears
-        for(int i = 0; i < Swears.getSwears().size(); i++){
-            if(content.toLowerCase().contains(Swears.getSwears().get(i))){
-                msgCh.sendMessage(Globals.chooseResp()).queue();
+        //for(int i = 0; i < Swears.getSwears().size(); i++){
+        if(Swears.checkProf(content)){
+            msgCh.sendMessage(Globals.chooseResp()).queue();
+            Swears.incrementPf(author);
+            try{
+                Swears.saveUsers();
+            } catch (IOException e){
+                e.printStackTrace();
             }
         }
+        //}
 
         if(content.length() > Globals.pref.length() && content.substring(0,Globals.pref.length()).equalsIgnoreCase(Globals.pref)){
             System.out.println("Command Entered");
             String command = content.substring(Globals.pref.length());
+
+            if(command.equalsIgnoreCase(Globals.swear)){
+                for(int i = 0; i < Swears.getUserIDs().size(); i++){
+                    msgCh.sendMessage(Swears.getNames().get(i) + ": " + Swears.getValues().get(i)).queue();
+                }
+            }
 
             if(command.equalsIgnoreCase("ping")){
                 msgCh.sendMessage("Pong!").queue();
