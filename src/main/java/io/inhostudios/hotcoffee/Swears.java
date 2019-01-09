@@ -45,6 +45,7 @@ public class Swears {
         safeWords.add("assume");
         safeWords.add("vinegar");
         safeWords.add("yass");
+        safeWords.add("grass");
     }
 
     public static ArrayList<String> getNames() {
@@ -65,19 +66,19 @@ public class Swears {
 
     public static boolean checkProf(String content){
 
-        for(int i = 0; i < swears.size(); i++){
-            for(int j = 0; j < safeWords.size(); j++){
-                if((content.length() > swears.get(i).length() && content.length() > safeWords.get(i).length()) && content.contains(swears.get(i)) && content.contains(safeWords.get(i))){
-                    if(content.replace(safeWords.get(i),"").contains(swears.get(i))){
-                        System.out.println(content.replace("Safe word: " + safeWords.get(i),""));
-                        return true;
-                    }
-                }
-            }
-        }
+//        for(int i = 0; i < swears.size(); i++){
+//            for(int j = 0; j < safeWords.size(); j++){
+//                if((content.length() > swears.get(i).length() && content.length() > safeWords.get(i).length()) && content.contains(swears.get(i)) && content.contains(safeWords.get(i))){
+//                    if(content.replace(safeWords.get(i),"").contains(swears.get(i))){
+//                        System.out.println(content.replace("Safe word: " + safeWords.get(i),""));
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
 
         content = content
-                .replace("//s", "")
+                .replace(" ", "")
                 .replace(".","")
                 .replace("!","")
                 .replace("-","")
@@ -97,7 +98,7 @@ public class Swears {
         }
 
         if((content.length() == 2 && content.equalsIgnoreCase("fk"))){
-
+            return true;
         }
 
         //check for fucc
@@ -108,6 +109,15 @@ public class Swears {
                 }
             }
         }*/
+        return false;
+    }
+
+    public static boolean coffeeable(User author){
+        for(int i = 0; i < userIDs.size(); i++){
+            if(author.getId().equalsIgnoreCase(userIDs.get(i)) && values.get(i) % 5 == 0){
+                return true;
+            }
+        }
         return false;
     }
 

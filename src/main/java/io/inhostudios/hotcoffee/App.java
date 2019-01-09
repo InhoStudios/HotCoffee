@@ -37,6 +37,9 @@ public class App extends ListenerAdapter {
         if(Swears.checkProf(content)){
             msgCh.sendMessage(Globals.chooseResp()).queue();
             Swears.incrementPf(author);
+            if(Swears.coffeeable(author)){
+                msgCh.sendMessage("`Free coffee! First come first serve, courtesy of " + author.getName() + "`").queue();
+            }
             try{
                 Swears.saveUsers();
             } catch (IOException e){

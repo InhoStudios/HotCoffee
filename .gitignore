@@ -4,3 +4,5 @@ src/main/java/io/inhostudios/hotcoffee/Globals\.java
 src/main/java/io/inhostudios/hotcoffee/Token\.java
 
 target/classes/io/inhostudios/hotcoffee/Token\.class
+
+\.idea/workspace\.xml
