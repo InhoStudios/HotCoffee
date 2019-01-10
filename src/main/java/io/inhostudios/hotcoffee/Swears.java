@@ -38,6 +38,7 @@ public class Swears {
         swears.add("cuck");
         swears.add("nig");
         swears.add("nibba");
+        swears.add("shiet");
 
         safeWords.add("pass");
         safeWords.add("bass");
@@ -90,7 +91,6 @@ public class Swears {
         while(content.contains("uu")){
             content = content.replace("uu","u");
         }
-
         while(content.contains("cc")){
             content = content.replace("cc","c");
         }
@@ -102,7 +102,6 @@ public class Swears {
         while(content.contains("ii")){
             content = content.replace("ii","i");
         }
-
         while(content.contains("ee")){
             content = content.replace("ee", "e");
         }
