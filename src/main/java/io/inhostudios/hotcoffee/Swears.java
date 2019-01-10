@@ -84,6 +84,29 @@ public class Swears {
                 .replace("-","")
                 .replace(":", "")
                 .replace("regional_indicator_","");
+
+
+        //fuuuck check
+        while(content.contains("uu")){
+            content = content.replace("uu","u");
+        }
+
+        while(content.contains("cc")){
+            content = content.replace("cc","c");
+        }
+
+        // shiet check
+        while(content.contains("hh")){
+            content = content.replace("hh","h");
+        }
+        while(content.contains("ii")){
+            content = content.replace("ii","i");
+        }
+
+        while(content.contains("ee")){
+            content = content.replace("ee", "e");
+        }
+
         System.out.println(content);
         for(int i = 0; i < swears.size(); i++){
             if(content.toLowerCase().contains(swears.get(i))){
