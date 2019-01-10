@@ -26,7 +26,7 @@ public class Swears {
         swears.add("fuuuck");
         swears.add("shit");
         swears.add("fck");
-        swears.add("ass");
+        //swears.add("ass");
         swears.add("bitch");
         swears.add("tf");
         swears.add("jfc");
