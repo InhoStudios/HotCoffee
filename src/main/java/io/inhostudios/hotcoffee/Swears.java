@@ -26,9 +26,7 @@ public class Swears {
         swears.add("fuuuck");
         swears.add("shit");
         swears.add("fck");
-        //swears.add("ass");
         swears.add("bitch");
-        swears.add("tf");
         swears.add("jfc");
         swears.add("bitchass");
         swears.add("bich");
@@ -36,7 +34,7 @@ public class Swears {
         swears.add("fuk");
         swears.add("kuk");
         swears.add("cuck");
-        swears.add("nig");
+        swears.add("nigg");
         swears.add("nibba");
         swears.add("shiet");
 
@@ -67,25 +65,30 @@ public class Swears {
 
     public static boolean checkProf(String content){
 
-//        for(int i = 0; i < swears.size(); i++){
-//            for(int j = 0; j < safeWords.size(); j++){
-//                if((content.length() > swears.get(i).length() && content.length() > safeWords.get(i).length()) && content.contains(swears.get(i)) && content.contains(safeWords.get(i))){
-//                    if(content.replace(safeWords.get(i),"").contains(swears.get(i))){
-//                        System.out.println(content.replace("Safe word: " + safeWords.get(i),""));
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
+        content = content.toLowerCase();
 
         content = content
-                .replace(" ", "")
                 .replace(".","")
                 .replace("!","")
                 .replace("-","")
                 .replace(":", "")
                 .replace("regional_indicator_","");
 
+        //precheck
+        if(content.contains("tf")){
+            return true;
+        }
+
+        if(content.contains("ass") && (
+                content.contains(" ass ") ||
+                content.length() == 3 ||
+                (content.indexOf("ass") == 0 && (content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals(" ") || content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals("s"))  ||
+                        (content.substring(content.indexOf("ass") - 1,content.indexOf("ass")).equals(" "))))){
+            return true;
+        }
+
+        content = content
+                .replace(" ", "");
 
         //fuuuck check
         while(content.contains("uu")){
@@ -109,12 +112,6 @@ public class Swears {
         System.out.println(content);
         for(int i = 0; i < swears.size(); i++){
             if(content.toLowerCase().contains(swears.get(i))){
-                return true;
-            }
-        }
-        if(content.contains("ass")){
-            int index = content.indexOf("ass");
-            if(index == 0 || content.substring(index - 1, index).equalsIgnoreCase(" ")){
                 return true;
             }
         }
