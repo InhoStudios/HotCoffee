@@ -16,14 +16,11 @@ public class Swears {
 
     public Swears(){
         init();
-        for(int i = 0; i < swears.size(); i++){
-            System.out.println(swears.get(i));
-        }
     }
 
     public static void init(){
         swears.add("fuc");
-        swears.add("fuuuck");
+        swears.add("fuck");
         swears.add("shit");
         swears.add("fck");
         swears.add("bitch");
@@ -37,6 +34,8 @@ public class Swears {
         swears.add("nigg");
         swears.add("nibba");
         swears.add("shiet");
+        swears.add("nepu");
+        swears.add("nepnep");
 
         safeWords.add("pass");
         safeWords.add("bass");
@@ -80,10 +79,11 @@ public class Swears {
         }
 
         if(content.contains("ass") && (
-                content.contains(" ass ") ||
+                content.contains(" ass ") || content.contains(" asss") ||
                 content.length() == 3 ||
-                (content.indexOf("ass") == 0 && (content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals(" ") || content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals("s"))  ||
-                        (content.substring(content.indexOf("ass") - 1,content.indexOf("ass")).equals(" "))))){
+                (content.indexOf("ass") == 0 && (content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals(" ") ||
+                        content.substring(content.indexOf("ass") + 3,content.indexOf("ass") + 4).equals("s"))  ||
+                (content.substring(content.indexOf("ass") - 1,content.indexOf("ass")).equals(" ") && content.indexOf("ass") + 3 == content.length())))){
             return true;
         }
 
@@ -109,7 +109,6 @@ public class Swears {
             content = content.replace("ee", "e");
         }
 
-        System.out.println(content);
         for(int i = 0; i < swears.size(); i++){
             if(content.toLowerCase().contains(swears.get(i))){
                 return true;
@@ -120,14 +119,6 @@ public class Swears {
             return true;
         }
 
-        //check for fucc
-        /*if(content.contains("f") && content.contains("u") && content.contains ("c")){
-            if(content.substring(content.indexOf("f") + 1,content.indexOf("f" + 2)).equals("u")){
-                if(content.indexOf("c") - 1 == content.indexOf("u")){
-                    return true;
-                }
-            }
-        }*/
         return false;
     }
 
