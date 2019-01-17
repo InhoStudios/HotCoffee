@@ -18,6 +18,7 @@ public class App extends ListenerAdapter {
         JDA jda = new JDABuilder(Token.token).build();
         jda.addEventListener(new App());
         Globals.initPf();
+        BotBullying.initCB();
         Swears.init();
         try {
             Swears.readFile();
@@ -31,6 +32,10 @@ public class App extends ListenerAdapter {
         Message msg = evt.getMessage();
         User author = evt.getAuthor();
         String content = msg.getContentRaw();
+
+        if(author.isBot()){
+            msgCh.sendMessage(BotBullying.chooseResp(author.getName()));
+        }
 
         // check swears
         //for(int i = 0; i < Swears.getSwears().size(); i++){
