@@ -19,7 +19,6 @@ public class Swears {
     }
 
     public static void init(){
-        swears.add("fuc");
         swears.add("fuck");
         swears.add("shit");
         swears.add("fck");
@@ -72,11 +71,6 @@ public class Swears {
                 .replace("-","")
                 .replace(":", "")
                 .replace("regional_indicator_","");
-
-        //precheck
-        if(content.contains("tf")){
-            return true;
-        }
 
         if(content.contains("ass") && (
                 content.contains(" ass ") || content.contains(" asss") ||

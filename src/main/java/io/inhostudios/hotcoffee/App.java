@@ -33,8 +33,8 @@ public class App extends ListenerAdapter {
         User author = evt.getAuthor();
         String content = msg.getContentRaw();
 
-        if(author.isBot()){
-            msgCh.sendMessage(BotBullying.chooseResp(author.getName()));
+        if(author.isBot() && !author.getId().equals("532241974682451968")){
+            msgCh.sendMessage(BotBullying.chooseResp(author.getName())).queue();
         }
 
         // check swears
@@ -58,9 +58,11 @@ public class App extends ListenerAdapter {
             String command = content.substring(Globals.pref.length());
 
             if(command.equalsIgnoreCase(Globals.swear)){
+                String swearJarRet = "Current Debtors: \n\n";
                 for(int i = 0; i < Swears.getUserIDs().size(); i++){
-                    msgCh.sendMessage(Swears.getNames().get(i) + ": $" + Swears.getValues().get(i)).queue();
+                    swearJarRet = swearJarRet + Swears.getNames().get(i) + ": $" + Swears.getValues().get(i) + "\n";
                 }
+                msgCh.sendMessage("```" + swearJarRet + "```").queue();
             }
 
             if(command.equalsIgnoreCase("ping")){
