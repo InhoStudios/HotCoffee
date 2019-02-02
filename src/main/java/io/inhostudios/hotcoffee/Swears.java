@@ -35,6 +35,7 @@ public class Swears {
         swears.add("shiet");
         swears.add("nepu");
         swears.add("nepnep");
+        swears.add("poop");
 
         safeWords.add("pass");
         safeWords.add("bass");
@@ -126,6 +127,10 @@ public class Swears {
     }
 
     public static void readFile() throws IOException {
+        userIDs = new ArrayList<String>();
+        values = new ArrayList<Integer>();
+        names = new ArrayList<String>();
+
         String path = System.getProperty("user.dir") + "\\src\\main\\resources\\data.file";
         File file = new File(path);
         FileReader fr = new FileReader(file);

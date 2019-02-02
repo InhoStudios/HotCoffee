@@ -2,17 +2,20 @@ package io.inhostudios.hotcoffee;
 
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.core.managers.AudioManager;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 
 public class App extends ListenerAdapter {
+
+    // Audio manager
+    AudioManager currentTo = null;
+    AudioManager currentFrom = null;
+    AudioBridge bridge = new AudioBridge();
 
     public static void main(String[] args) throws LoginException{
         JDA jda = new JDABuilder(Token.token).build();
@@ -65,8 +68,79 @@ public class App extends ListenerAdapter {
                 msgCh.sendMessage("```" + swearJarRet + "```").queue();
             }
 
+            if(command.equalsIgnoreCase(Globals.update)){
+                msgCh.sendMessage("`Updated file!`").queue();
+                try{
+                    Swears.readFile();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+
             if(command.equalsIgnoreCase("ping")){
                 msgCh.sendMessage("Pong!").queue();
+            }
+
+            //audio manager
+
+            //channel to bridge from
+            if(command.startsWith(Globals.bridgeFrom)){
+                String chanName = command.substring(Globals.bridgeFrom.length());
+                VoiceChannel chan  = getChannelWithName(evt.getGuild(), chanName);
+                if (chan == null)
+                {
+                    evt.getChannel().sendMessage("'" + chanName + "' does not exist.");
+                    return;
+                }
+                if (currentFrom != null)
+                {
+                    currentFrom.setReceivingHandler(null);
+                    currentFrom.closeAudioConnection();
+                }
+                currentFrom = evt.getGuild().getAudioManager();
+                currentFrom.openAudioConnection(chan);
+                currentFrom.setReceivingHandler(bridge);
+                msgCh.sendMessage("Connected to `" + chan.getName() + "`").queue();
+            }
+
+            if(command.equalsIgnoreCase(Globals.audioRead)){
+                ByteReader.writeByte(bridge.provide20MsAudio());
+                msgCh.sendMessage("Saved audio " + ByteReader.readByte(bridge.provide20MsAudio()).substring(0,50)).queue();
+            }
+
+            //channel to bridge to
+            if(command.startsWith(Globals.bridgeTo)){
+                String chanName = command.substring(Globals.bridgeTo.length());
+                VoiceChannel chan  = getChannelWithName(evt.getGuild(), chanName);
+                if (chan == null)
+                {
+                    evt.getChannel().sendMessage("'" + chanName + "' does not exist.");
+                    return;
+                }
+                if (currentTo != null)
+                {
+                    currentTo.setSendingHandler(null);
+                    currentTo.closeAudioConnection();
+                }
+                currentTo = evt.getGuild().getAudioManager();
+                currentTo.openAudioConnection(chan);
+                currentTo.setSendingHandler(bridge);
+
+                msgCh.sendMessage("Connected to `" + chan.getName() + "`").queue();
+            }
+
+            if(command.equalsIgnoreCase(Globals.dcon)){
+                if(currentTo.getSendingHandler() != null){
+                    currentTo.setSendingHandler(null);
+                    currentTo.closeAudioConnection();
+                    currentTo = null;
+                }
+                if(currentFrom.getReceiveHandler() != null){
+                    currentFrom.setReceivingHandler(null);
+                    currentFrom.closeAudioConnection();
+                    currentFrom = null;
+                }
+                msgCh.sendMessage("Disconnected!").queue();
             }
 
         }
@@ -78,6 +152,11 @@ public class App extends ListenerAdapter {
         {
             System.out.printf("[%s][%s] %s: %s\n", evt.getGuild().getName(), evt.getTextChannel().getName(), evt.getMember().getEffectiveName(), evt.getMessage().getContentDisplay());
         }
+    }
+
+    public VoiceChannel getChannelWithName(Guild guild, String chanName) {
+        VoiceChannel channel = guild.getVoiceChannels().stream().filter(vChan -> vChan.getName().equalsIgnoreCase(chanName)).findFirst().orElse(null);
+        return channel;
     }
 
 }
