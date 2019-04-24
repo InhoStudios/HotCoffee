@@ -1,5 +1,7 @@
 package io.inhostudios.hotcoffee;
 
+import io.inhostudios.hotcoffee.voice.AudioBridge;
+import io.inhostudios.hotcoffee.Utils.ByteReader;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.*;
@@ -36,6 +38,10 @@ public class App extends ListenerAdapter {
         User author = evt.getAuthor();
         String content = msg.getContentRaw();
 
+        if(msg.getContentRaw().toLowerCase().contains("nepu")){
+            msgCh.sendMessage(author.getName() + " is most powerful because he can say the N word.").queue();
+        }
+
         if(author.isBot() && !author.getId().equals("532241974682451968")){
             msgCh.sendMessage(BotBullying.chooseResp(author.getName())).queue();
         }
@@ -59,6 +65,7 @@ public class App extends ListenerAdapter {
         if(content.length() > Globals.pref.length() && content.substring(0,Globals.pref.length()).equalsIgnoreCase(Globals.pref)){
             System.out.println("Command Entered");
             String command = content.substring(Globals.pref.length());
+
 
             if(command.equalsIgnoreCase(Globals.swear)){
                 String swearJarRet = "Current Debtors: \n\n";
@@ -102,12 +109,6 @@ public class App extends ListenerAdapter {
                 currentFrom.setReceivingHandler(bridge);
                 msgCh.sendMessage("Connected to `" + chan.getName() + "`").queue();
             }
-
-            if(command.equalsIgnoreCase(Globals.audioRead)){
-                ByteReader.writeByte(bridge.provide20MsAudio());
-                msgCh.sendMessage("Saved audio " + ByteReader.readByte(bridge.provide20MsAudio()).substring(0,50)).queue();
-            }
-
             //channel to bridge to
             if(command.startsWith(Globals.bridgeTo)){
                 String chanName = command.substring(Globals.bridgeTo.length());

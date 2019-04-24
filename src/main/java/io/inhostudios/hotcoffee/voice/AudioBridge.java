@@ -1,4 +1,4 @@
-package io.inhostudios.hotcoffee;
+package io.inhostudios.hotcoffee.voice;
 
 import net.dv8tion.jda.core.audio.AudioReceiveHandler;
 import net.dv8tion.jda.core.audio.AudioSendHandler;

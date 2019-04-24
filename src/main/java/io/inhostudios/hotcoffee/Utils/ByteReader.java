@@ -1,4 +1,4 @@
-package io.inhostudios.hotcoffee;
+package io.inhostudios.hotcoffee.Utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
